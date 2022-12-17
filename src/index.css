@@ -68,3 +68,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* EXTRA STYLES */
+.post {
+  border: 1px solid plum;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}

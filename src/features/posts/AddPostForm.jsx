@@ -1,27 +1,39 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdded } from "./postsSlice";
-// import { selectAllUsers } from "../users/usersSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 export default function AddPostform() {
   const dispatcher = useDispatch();
-  const [inputs, setInputs] = useState({ title: "", desc: "" });
+  const users = useSelector(selectAllUsers);
 
-  const updateInputs = (e) => {
-    const key = e.target.name;
-    const value = e.target.value;
-    setInputs((prev) => ({ ...prev, [key]: value }));
-  };
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const onTitleChanged = (e) => setTitle(e.target.value);
+  const onContentChanged = (e) => setContent(e.target.value);
+  const onAuthorChanged = (e) => setUserId(e.target.value);
+
+  const canSubmit = title && content && userId;
 
   const submitHandler = (e) => {
     e.preventDefault();
     // check inputs are not empty
-    if (inputs.desc && inputs.title) {
-      dispatcher(postAdded(inputs.title, inputs.desc));
+    if (canSubmit) {
+      dispatcher(postAdded(title, content, userId));
       // reset inputs
-      setInputs({ title: "", desc: "" });
+      setTitle("");
+      setContent("");
+      setUserId("");
     }
   };
+
+  const usersOptions = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
 
   return (
     <>
@@ -31,8 +43,8 @@ export default function AddPostform() {
           <input
             type="text"
             name="title"
-            onChange={updateInputs}
-            value={inputs.title}
+            onChange={onTitleChanged}
+            value={title}
           />
         </div>
 
@@ -41,11 +53,20 @@ export default function AddPostform() {
           <input
             type="text"
             name="desc"
-            onChange={updateInputs}
-            value={inputs.desc}
+            onChange={onContentChanged}
+            value={content}
           />
         </div>
-        <button type="submit">Submit</button>
+
+        <label htmlFor="postAuthor">Author:</label>
+        <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
+          <option value=""></option>
+          {usersOptions}
+        </select>
+
+        <button type="submit" disabled={!canSubmit}>
+          Submit
+        </button>
       </form>
     </>
   );

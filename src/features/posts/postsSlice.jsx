@@ -38,14 +38,16 @@ const postsSlice = createSlice({
     postAdded: {
       // makes cleaner the AddPostForm argument passing
       reducer(state, action) {
-        state.push(action.payload);
+        state.unshift(action.payload);
       },
-      prepare(title, content) {
+      prepare(title, content, userId) {
         return {
           payload: {
             id: nanoid(),
             title,
             content,
+            userId,
+            date: new Date().toISOString(),
           },
         };
       },
