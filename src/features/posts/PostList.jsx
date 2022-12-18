@@ -2,19 +2,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectAllPosts } from "./postsSlice";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons";
 
 export default function PostList() {
   const posts = useSelector(selectAllPosts);
 
   // ? cleaner return
-  const articlesMapping = posts.map((e) => (
-    <article key={e.id} className="col post">
-      <h3>{e.title}</h3>
-      <p>{e.content}</p>
+  const articlesMapping = posts.map((post) => (
+    <article key={post.id} className="col post">
+      <h3>{post.title}</h3>
+      <p>{post.content}</p>
       <p className="postCredit">
-        <PostAuthor userId={e.userId} />
-        <TimeAgo timestamp={e.date} />
+        <PostAuthor userId={post.userId} />
+        <TimeAgo timestamp={post.date} />
       </p>
+      <ReactionButtons {...{ post }} />
     </article>
   ));
 
