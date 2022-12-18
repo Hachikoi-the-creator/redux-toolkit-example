@@ -38,25 +38,21 @@ export default function AddPostform() {
   return (
     <>
       <form className="form" onSubmit={submitHandler}>
-        <div className="stuff">
-          <label htmlFor="title">Title: </label>
-          <input
-            type="text"
-            name="title"
-            onChange={onTitleChanged}
-            value={title}
-          />
-        </div>
+        <label htmlFor="title">Title: </label>
+        <input
+          type="text"
+          name="title"
+          onChange={onTitleChanged}
+          value={title}
+        />
 
-        <div className="stuff">
-          <label htmlFor="desc">Description: </label>
-          <input
-            type="text"
-            name="desc"
-            onChange={onContentChanged}
-            value={content}
-          />
-        </div>
+        <label htmlFor="desc">Description: </label>
+        <input
+          type="text"
+          name="desc"
+          onChange={onContentChanged}
+          value={content}
+        />
 
         <label htmlFor="postAuthor">Author:</label>
         <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
